@@ -8,7 +8,7 @@
       content="Art's Coaching helps students achieve academic excellence through expert coaching and structured guidance."
     />
     <title>Art's Coaching - Perfected v3.0</title>
-    <link rel="stylesheet" href="styles.css?v=20261108-local-fee-register" />
+    <link rel="stylesheet" href="styles.css?v=20261108-private-fees" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -18,7 +18,7 @@
     <header class="header">
       <div class="logo-area">
         <img
-          src="arts-coaching-logo.png"
+          src="arts-coaching-logo.jpg"
           alt="Art's Coaching logo"
           class="logo"
         />
@@ -38,7 +38,6 @@
         <a href="#courses" class="active">Courses</a>
         <a href="#faculty">Faculty</a>
         <a href="#results">Results</a>
-        <a href="#monthly-fees">Monthly Fees</a>
         <a href="management.html">Student Management</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -117,86 +116,6 @@
         <div class="card">
           Personalized feedback loops resulting in a 30% average grade improvement.
         </div>
-      </section>
-
-      <section id="monthly-fees" class="section">
-        <h2>Monthly Fees Collection</h2>
-        <article class="card monthly-fee-card">
-          <div class="monthly-fee-heading">
-            <div class="contact-icon" aria-hidden="true">
-              <i class="fas fa-calendar-check"></i>
-            </div>
-            <div>
-              <h3>Student Fee Register</h3>
-              <p>Use the serial numbers to organize monthly student fee records.</p>
-            </div>
-          </div>
-          <div class="fee-table-wrap">
-            <table class="fee-table">
-              <thead>
-                <tr>
-                  <th scope="col">Serial Number</th>
-                  <th scope="col">Student Name</th>
-                  <th scope="col">Class</th>
-                  <th scope="col">Month</th>
-                  <th scope="col">Fees</th>
-                  <th scope="col">Payment Status</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="feeRecords">
-                <tr>
-                  <td class="fee-empty" colspan="7">
-                    No fee records added yet.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <section class="fee-editor" aria-labelledby="fee-editor-title">
-            <h4 id="fee-editor-title">Teacher editing</h4>
-            <p>
-              Sk Ajmat Haque and Sultan Giasuddin can add fee records or edit an existing record below.
-              Records are saved only in this browser on this device. This version has no sign-in protection,
-              so anyone using this browser can edit them.
-            </p>
-            <form id="feeForm" class="fee-form">
-              <label>
-                Student Name
-                <input name="studentName" type="text" maxlength="120" required />
-              </label>
-              <label>
-                Class
-                <input name="studentClass" type="text" maxlength="80" required />
-              </label>
-              <label>
-                Month
-                <input name="month" type="month" required />
-              </label>
-              <label>
-                Fees (INR)
-                <input name="fees" type="number" min="0" max="1000000" step="0.01" required />
-              </label>
-              <label>
-                Payment Status
-                <select name="paymentStatus" required>
-                  <option value="Unpaid">Unpaid</option>
-                  <option value="Paid">Paid</option>
-                  <option value="Partial">Partial</option>
-                </select>
-              </label>
-              <div class="fee-form-actions">
-                <button class="fee-save-button" type="submit">Add fee record</button>
-                <button class="fee-cancel-button" id="cancelFeeEdit" type="button" hidden>Cancel edit</button>
-              </div>
-            </form>
-            <p id="feeStatusMessage" class="fee-status-message" role="status" aria-live="polite"></p>
-          </section>
-          <div class="contact-actions">
-            <a class="call-btn" href="tel:9775710953">Contact Sk Ajmat Haque</a>
-            <a class="call-btn" href="tel:9732037124">Contact Sultan Giasuddin</a>
-          </div>
-        </article>
       </section>
 
       <section class="contact-section" id="contact">
@@ -287,7 +206,6 @@
         <i class="fab fa-whatsapp" aria-hidden="true"></i>
       </a>
     </div>
-    <script src="fee-register.js?v=20261108-local-register"></script>
     <script>
       const callToggle = document.getElementById("callToggle");
       const callMenu = document.getElementById("callMenu");
