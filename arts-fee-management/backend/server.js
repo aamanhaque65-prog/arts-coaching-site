@@ -55,6 +55,7 @@ app.use((error, _req, res, _next) => {
 });
 
 const port = Number(process.env.PORT || 4000);
+const host = process.env.HOST;
 let server;
 
 async function startServer() {
@@ -68,9 +69,10 @@ async function startServer() {
     return;
   }
 
-  server = app.listen(port, () => {
+  const onListening = () => {
     console.log(`Arts fee management API listening on port ${port}`);
-  });
+  };
+  server = host ? app.listen(port, host, onListening) : app.listen(port, onListening);
 
   server.on("error", (error) => {
     console.error("Could not start API server:", error.message);

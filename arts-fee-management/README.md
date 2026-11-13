@@ -74,10 +74,21 @@ Requirements: Node.js 20+, npm, and MySQL 8+.
 
    Visit `http://localhost:5173`. Vite proxies `/api` requests to `http://localhost:4000`; set `VITE_API_URL` in `frontend/.env.local` only when using a separate API origin.
 
+### Preview on another device on the same Wi-Fi/LAN
+
+This is for trusted private networks during development, not public hosting.
+
+1. On the development computer, run `ipconfig` and note the IPv4 address for the active Wi-Fi or Ethernet adapter. Do not use `127.0.0.1` or `localhost` on the client device.
+2. Set `FRONTEND_ORIGIN` in `backend/.env` to the exact frontend origin, `http://<LAN-IP>:5173` (no trailing slash). The API keeps its exact-origin CORS and mutation checks enabled.
+3. In `backend/.env`, set `HOST=127.0.0.1` and `PORT=4000`; then start the backend with `npm run dev` from `backend` and start the frontend with `npm run dev` from `frontend`. Vite binds to `0.0.0.0:5173` and proxies `/api` and `/health` to the backend on the development computer. The backend remains loopback-only; leave `VITE_API_URL` unset/empty so browser requests use this same-origin proxy.
+4. On the other device, connected to the same trusted Wi-Fi/LAN, open `http://<LAN-IP>:5173` in a browser and sign in normally.
+5. If the computer firewall blocks access, allow inbound TCP port `5173` only on the Private network profile. Do not create a Public-network rule or expose backend port `4000` to client devices; API requests should go through the Vite proxy.
+
 ## Production configuration
 
 - Build and deploy `frontend` as a Vite static site (Vercel build command `npm run build`, output folder `dist`). Set `VITE_API_URL` at build time to the public HTTPS API origin. The included Vercel rewrite sends application routes to `index.html`.
 - Deploy `backend` as an Express service (for example on Railway), provision MySQL, and configure `PORT`, `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `JWT_SECRET`, and `FRONTEND_ORIGIN` using the host's private environment/secret settings. Generate a separate strong random `JWT_SECRET` for each environment; do not copy it into source files, frontend variables, logs, or deployment documentation.
+- For Railway, leave `HOST` unset or set it to `0.0.0.0` so the platform can reach the API; the loopback setting in `.env.example` is for local development only.
 - Set `FRONTEND_ORIGIN` to the exact deployed frontend origin. For browser session cookies on production, host the frontend and API on HTTPS subdomains of the same registrable domain (for example `fees.example.com` and `fees-api.example.com`); this supports `SameSite=Lax` without third-party cookies.
 - Provision the first administrator by running `npm run create-admin` in a private interactive deployment shell. Do not expose administrator provisioning over a public API.
 - The production `Secure`, `HttpOnly`, and `SameSite=Lax` session cookie contains a signed JWT. Passwords and secrets are never sent to or stored in the frontend.
