@@ -122,6 +122,20 @@
 .sign-out-button:active { transform: translateY(1px); }
 .primary-button:disabled { cursor: wait; opacity: 0.65; }
 .sign-out-button { margin-left: 8px; }
+.secondary-button,
+.text-button {
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid var(--primary-light);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--primary);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.secondary-button:disabled { cursor: not-allowed; opacity: 0.6; }
+.text-button { min-height: auto; padding: 4px 0; border: 0; text-decoration: underline; }
 
 .management-grid {
   display: grid;
@@ -129,6 +143,43 @@
   gap: 22px;
 }
 .form-note { margin-top: 14px; font-size: 13px; line-height: 1.6; }
+.inline-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 16px;
+}
+.inline-form label {
+  display: grid;
+  gap: 7px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+}
+.inline-form input,
+.inline-form select {
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #fbfcfe;
+  color: var(--text);
+  font: inherit;
+}
+.fee-status-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.fee-status-result p { font-weight: 650; }
 .dashboard-heading { margin-bottom: 24px; }
 .dashboard-heading p { margin-top: 7px; }
 .status-message {
@@ -176,6 +227,7 @@
 @media (max-width: 720px) {
   .management-main { padding: 30px 0 54px; }
   .management-grid { grid-template-columns: 1fr; }
+  .inline-form { grid-template-columns: 1fr; }
   .management-panel,
   .notice { padding: 22px 18px; }
   .auth-panel { max-width: 520px; margin: 28px auto; padding: 34px 26px; }

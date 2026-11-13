@@ -4,14 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Secure student and payment management for Art's Coaching." />
+    <meta name="robots" content="noindex, nofollow" />
     <title>Student Management - Art's Coaching</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="management.css?v=official-admin" />
+    <link rel="stylesheet" href="styles.css?v=private-fees-20261108" />
+    <link rel="stylesheet" href="management.css?v=private-fees-20261108" />
   </head>
   <body>
     <header class="header">
       <div class="logo-area">
-        <img src="arts-coaching-logo.png" alt="Art's Coaching logo" class="logo" />
+        <img src="arts-coaching-logo.jpg" alt="Art's Coaching logo" class="logo" />
         <h1>Student Management</h1>
       </div>
       <nav aria-label="Main navigation">
@@ -24,9 +25,9 @@
       <section id="configurationNotice" class="notice" role="status" hidden>
         <h2>Connect your Firebase project</h2>
         <p>
-          Add your Firebase web app configuration in <code>management.js</code>, and replace
-          <code>YOUR_ADMIN_UID</code> in <code>firestore.rules</code> with the UID of the admin
-          account you use to sign in. Deploy the rules to the same Firebase project.
+          Set the Firebase web app configuration and three administrator UIDs in
+          <code>management.js</code>, then follow <code>FEE-SETUP.md</code> to deploy Firestore
+          rules. This Spark-plan version records cash bookkeeping only; it does not process payments.
         </p>
       </section>
 
@@ -35,6 +36,7 @@
         <h2>Admin sign in</h2>
         <p class="auth-description">Secure access for authorized staff to manage student and fee records.</p>
         <form id="signInForm" class="management-form">
+          <p id="authStatusMessage" class="status-message" role="status" aria-live="polite" hidden></p>
           <label>
             Email address
             <input name="email" type="email" autocomplete="username" required />
@@ -51,7 +53,7 @@
         <div class="dashboard-heading">
           <div>
             <h2>Coaching records</h2>
-            <p>Manage student profiles and record monthly payments.</p>
+            <p>Private student records, monthly fee records, cash ledger, bills, receipts, and audit history.</p>
           </div>
         </div>
 
@@ -86,7 +88,7 @@
           </section>
 
           <section class="management-panel">
-            <h3>Record a payment</h3>
+            <h3>Cash received (record only)</h3>
             <form id="paymentForm" class="management-form">
               <label>
                 Student
@@ -100,13 +102,34 @@
               </label>
               <label>
                 Amount paid (INR)
-                <input name="amount" type="number" min="1" max="1000000" step="1" required />
+                <input name="amount" type="number" min="0.01" max="1000000" step="0.01" required />
               </label>
-              <button class="primary-button" type="submit">Save payment</button>
+              <button class="primary-button" type="submit">Record cash received</button>
             </form>
-            <p class="form-note">Payments are saved as permanent records and cannot be edited or deleted.</p>
+            <p class="form-note">
+              This saves an admin-entered cash record and creates a receipt; it does not verify that money changed hands.
+              Online payments and Razorpay are not enabled on the Spark plan.
+            </p>
           </section>
         </div>
+
+        <section class="management-panel records-panel">
+          <h3>Monthly fee status and bill</h3>
+          <form id="feeStatusForm" class="inline-form">
+            <label>
+              Student
+              <select name="studentId" id="feeStatusStudent" required>
+                <option value="">Select a student</option>
+              </select>
+            </label>
+            <label>
+              Fee month
+              <input name="month" type="month" required />
+            </label>
+            <button class="primary-button" type="submit">Show balance</button>
+          </form>
+          <div id="feeStatusResult" class="fee-status-result" hidden></div>
+        </section>
 
         <section class="management-panel records-panel">
           <h3>Students</h3>
@@ -138,10 +161,35 @@
                   <th>Student</th>
                   <th>Month</th>
                   <th>Amount</th>
+                  <th>Method</th>
+                  <th>Receipt</th>
                 </tr>
               </thead>
               <tbody id="paymentsTable">
-                <tr><td class="empty-row" colspan="4">Sign in to load payment records.</td></tr>
+                <tr><td class="empty-row" colspan="6">Sign in to load payment records.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="management-panel records-panel">
+          <h3>Recent admin activity</h3>
+          <p class="form-note">
+            These entries are written by the signed-in admin's browser and are append-only under Firestore rules.
+            They are a basic activity history, not tamper-proof security audit logs.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Administrator</th>
+                  <th>Action</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody id="auditTable">
+                <tr><td class="empty-row" colspan="4">Sign in to load audit history.</td></tr>
               </tbody>
             </table>
           </div>
@@ -149,6 +197,7 @@
       </section>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" src="management.js"></script>
   </body>
 </html>
